@@ -23,7 +23,10 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nx/typescript"],
+      "parserOptions": {
+        "project": ["tsconfig.base.json"]
+      },
+      "extends": ["plugin:@nx/typescript", "@mw-experts/eslint-config-ts"],
       "rules": {}
     },
     {
