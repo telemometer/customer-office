@@ -19,4 +19,6 @@ npx nx g @nx/angular:app shell --directory=apps/shell/shell
 - CI/CD pipeline
 - SemVer Changelog
 - microfrontends vs libs
+- protect repo branch
+
 

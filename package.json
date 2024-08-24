@@ -9,7 +9,8 @@
     "shell:lintfix": "npx nx lint shell --fix",
     "shell:test": "npx nx test shell",
     "shell-e2e:lintfix": "npx nx lint shell-e2e --fix",
-    "shell-e2e:e2e": "npx nx e2e shell-e2e"
+    "shell-e2e:e2e": "npx nx e2e shell-e2e",
+    "affected:all": "git fetch && nx affected -t lint test build e2e --base=origin/main --head=HEAD"
   },
   "prettier": "@mw-experts/prettier-config",
   "dependencies": {
@@ -47,6 +48,8 @@
     "@nx/workspace": "19.6.2",
     "@playwright/test": "^1.36.0",
     "@schematics/angular": "~18.2.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
@@ -63,6 +66,7 @@
     "jest-preset-angular": "~14.1.0",
     "nx": "19.6.2",
     "prettier": "^2.6.2",
+    "semantic-release": "^24.1.0",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
     "typescript": "~5.5.2"
