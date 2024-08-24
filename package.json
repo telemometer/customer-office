@@ -1,11 +1,12 @@
 {
   "name": "@customer-office/source",
   "version": "0.0.0",
-  "license": "MIT",
+  "license": "UNLICENSED",
+  "private": true,
   "scripts": {
     "develop:shell": "npx nx serve shell"
   },
-  "private": true,
+  "prettier": "@mw-experts/prettier-config",
   "dependencies": {
     "@angular/animations": "~18.2.0",
     "@angular/common": "~18.2.0",
@@ -29,6 +30,7 @@
     "@angular/cli": "~18.2.0",
     "@angular/compiler-cli": "~18.2.0",
     "@angular/language-service": "~18.2.0",
+    "@mw-experts/prettier-config": "^1.0.0",
     "@nx/angular": "19.6.2",
     "@nx/devkit": "19.6.2",
     "@nx/eslint": "19.6.2",
