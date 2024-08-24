@@ -2,7 +2,9 @@
   "name": "@customer-office/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "develop:shell": "npx nx serve shell"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~18.2.0",
