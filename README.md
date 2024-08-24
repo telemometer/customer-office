@@ -8,9 +8,11 @@
 ## Adding Another Application
 
 1. Run
+
 ```shell
 npx nx g @nx/angular:app shell --directory=apps/shell/shell
 ```
+
 2. Delete `.prettierrc` file
 3. Create scripts in `package.json` and run all of them to check if everything is working
 
@@ -21,4 +23,5 @@ npx nx g @nx/angular:app shell --directory=apps/shell/shell
 - microfrontends vs libs
 - protect repo branch
 
-
+FINISH NX CLOUD SETUP
+FINISH CICD - FIX FORMATs

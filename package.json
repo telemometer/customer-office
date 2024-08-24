@@ -4,13 +4,23 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "shell:develop": "npx nx serve shell",
+    "shell =======================================================================================================": "",
+    "shell:develop": "npx nx serve shell --port=4200",
     "shell:build": "npx nx build shell",
     "shell:lintfix": "npx nx lint shell --fix",
     "shell:test": "npx nx test shell",
     "shell-e2e:lintfix": "npx nx lint shell-e2e --fix",
     "shell-e2e:e2e": "npx nx e2e shell-e2e",
-    "affected:all": "git fetch && nx affected -t lint test build e2e --base=origin/main --head=HEAD"
+    "dashboard ===================================================================================================": "",
+    "dashboard:develop": "npx nx serve dashboard --port=4201",
+    "dashboard:build": "npx nx build dashboard",
+    "dashboard:lintfix": "npx nx lint dashboard --fix",
+    "dashboard:test": "npx nx test dashboard",
+    "dashboard-e2e:lintfix": "npx nx lint dashboard-e2e --fix",
+    "dashboard-e2e:e2e": "npx nx e2e dashboard-e2e",
+    "shared ======================================================================================================": "",
+    "format": "nx format:write --base=origin/main --head=HEAD",
+    "affected": "git fetch && nx affected -t lint test build e2e --base=origin/main --head=HEAD"
   },
   "prettier": "@mw-experts/prettier-config",
   "dependencies": {
