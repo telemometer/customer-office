@@ -12,4 +12,11 @@
 npx nx g @nx/angular:app shell --directory=apps/shell/shell
 ```
 2. Delete `.prettierrc` file
-3. Create scripts in `package.json` and run `lintfix`
+3. Create scripts in `package.json` and run all of them to check if everything is working
+
+## TODO
+
+- CI/CD pipeline
+- SemVer Changelog
+- microfrontends vs libs
+
