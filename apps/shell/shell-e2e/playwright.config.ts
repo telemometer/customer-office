@@ -3,7 +3,7 @@ import { nxE2EPreset } from '@nx/playwright/preset';
 import { defineConfig, devices } from '@playwright/test';
 
 // For CI, you may want to set BASE_URL to the deployed application.
-const baseURL: string = process.env['BASE_URL'] || 'http://localhost:4200';
+const baseURL: string = process.env['BASE_URL'] || 'http://localhost:4600';
 
 /**
  * Read environment variables from file.
@@ -24,8 +24,8 @@ export default defineConfig({
   },
   /* Run your local dev server before starting the tests */
   webServer: {
-    command: 'npx nx serve shell',
-    url: 'http://localhost:4200',
+    command: 'npx nx serve shell --port 4600',
+    url: 'http://localhost:4600',
     reuseExistingServer: !process.env['CI'],
     cwd: workspaceRoot,
   },
@@ -59,6 +59,6 @@ export default defineConfig({
     {
       name: 'Google Chrome',
       use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    }
+    },
   ],
 });
