@@ -4,8 +4,10 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "develop:shell": "npx nx serve shell",
-    "lint:shell": "npx nx lint shell"
+    "shell:develop": "npx nx serve shell",
+    "shell:build": "npx nx build shell",
+    "shell:lintfix": "npx nx lint shell --fix",
+    "shell:test": "npx nx test shell"
   },
   "prettier": "@mw-experts/prettier-config",
   "dependencies": {
@@ -31,7 +33,7 @@
     "@angular/cli": "~18.2.0",
     "@angular/compiler-cli": "~18.2.0",
     "@angular/language-service": "~18.2.0",
-    "@mw-experts/eslint-config-ts": "^1.4.1",
+    "@mw-experts/eslint-config-ts": "^1.4.2",
     "@mw-experts/prettier-config": "^1.0.0",
     "@nx/angular": "19.6.2",
     "@nx/devkit": "19.6.2",

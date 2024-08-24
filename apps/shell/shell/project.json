@@ -1,28 +1,28 @@
 {
   "name": "shell",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "prefix": "app",
-  "sourceRoot": "apps/shell/src",
+  "sourceRoot": "apps/shell/shell/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/shell",
-        "index": "apps/shell/src/index.html",
-        "browser": "apps/shell/src/main.ts",
+        "outputPath": "dist/apps/shell/shell",
+        "index": "apps/shell/shell/src/index.html",
+        "browser": "apps/shell/shell/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/shell/tsconfig.app.json",
+        "tsConfig": "apps/shell/shell/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/shell/public"
+            "input": "apps/shell/shell/public"
           }
         ],
-        "styles": ["apps/shell/src/styles.scss"],
+        "styles": ["apps/shell/shell/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -74,7 +74,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/shell/jest.config.ts"
+        "jestConfig": "apps/shell/shell/jest.config.ts"
       }
     }
   }
