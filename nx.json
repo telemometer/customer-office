@@ -70,7 +70,7 @@
     }
   },
   "release": {
-    "projects": ["*", "!*-e2e"],
+    "projects": ["*"],
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
@@ -80,6 +80,13 @@
     },
     "changelog": {
       "projectChangelogs": true
+    }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "cacheableOperations": ["build", "test", "lint", "e2e"]
+      }
     }
   }
 }
