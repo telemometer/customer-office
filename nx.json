@@ -70,7 +70,7 @@
     }
   },
   "release": {
-    "projects": ["*", "!*-e2e"],
+    "projects": ["*"],
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
