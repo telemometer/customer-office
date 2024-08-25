@@ -53,8 +53,27 @@ jobs:
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
       # Nx Affected runs only tasks affected by the changes in this PR/commit. Learn more: https://nx.dev/ci/features/affected
-      - name: Check affected
-        run: npx nx affected -t lint test build e2e-ci
+      - name: Lint affected
+        run: npx nx affected -t lint
+
+      - name: Test affected
+        run: npx nx affected -t test
+
+      - name: E2E affected
+        run: npx nx affected -t e2e-ci
+
+      - name: Set version affected
+        run: npx nx release version
+
+      - name: Build affected
+        run: npx nx affected -t build
+
+      - name: Generate CHANGELOG affected
+        run: npx nx release changelog
+
+      - name: Publish affected
+        run: npx nx release publish
+
 #      - name: Build static site
 #        run: |
 #          npm run build
