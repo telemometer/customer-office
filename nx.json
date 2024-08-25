@@ -70,14 +70,16 @@
     }
   },
   "release": {
-    "projects": ["apps/shell/shell", "apps/dashboard/dashboard"],
+    "projects": ["!apps/*/*-e2e"],
     "projectsRelationship": "independent",
-    "version": {
-      "conventionalCommits": true
-    },
     "changelog": {
       "projectChangelogs": {
         "createRelease": "github"
+      }
+    },
+    "version": {
+      "generatorOptions": {
+        "packageRoot": "dist/apps/{projectName}/{projectName}/browser"
       }
     }
   }

@@ -20,6 +20,10 @@
           {
             "glob": "**/*",
             "input": "apps/dashboard/dashboard/public"
+          },
+          {
+            "glob": "package.json",
+            "input": "apps/dashboard/dashboard"
           }
         ],
         "styles": ["apps/dashboard/dashboard/src/styles.scss"],
