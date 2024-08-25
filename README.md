@@ -22,6 +22,3 @@ npx nx g @nx/angular:app shell --directory=apps/shell/shell
 - SemVer Changelog
 - microfrontends vs libs
 - protect repo branch
-
-FINISH NX CLOUD SETUP
-FINISH CICD - FIX FORMATs
