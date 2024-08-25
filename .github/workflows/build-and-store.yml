@@ -24,7 +24,7 @@ jobs:
       # Run this command as early as possible, before dependencies are installed
       # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
       - name: Enable task distribution via Nx Cloud
-        run: npx nx-cloud start-ci-run --distribute-on="4 linux-medium-js" --stop-agents-after="release"
+        run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="release"
 
       - name: Read Node.js version from .nvmrc file
         run: |
