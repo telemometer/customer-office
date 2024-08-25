@@ -23,4 +23,3 @@ npx nx g @nx/angular:app shell --directory=apps/shell/shell
   "input": "apps/shell/shell"
 }
 ```
-
