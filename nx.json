@@ -81,5 +81,12 @@
     "changelog": {
       "projectChangelogs": true
     }
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "options": {
+        "cacheableOperations": ["build", "test", "lint", "e2e"]
+      }
+    }
   }
 }

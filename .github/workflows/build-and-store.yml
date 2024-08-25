@@ -60,7 +60,7 @@ jobs:
         run: npx nx affected -t test
 
       - name: Set version affected
-        run: npx nx release version
+        run: npx nx affected -t release -- --type=version
 
       - name: Build affected
         run: npx nx affected -t build
