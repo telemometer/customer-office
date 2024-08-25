@@ -17,6 +17,7 @@ npx nx g @nx/angular:app shell --directory=apps/shell/shell
 3. Create scripts in `package.json` and run all of them to check if everything is working
 4. Add `package.json` to the app folder
 5. Add app `package.json` to the angular assets in `project.json`, example:
+
 ```json
 {
   "glob": "package.json",
