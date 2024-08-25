@@ -70,17 +70,10 @@
     }
   },
   "release": {
-    "projects": ["!apps/*/*-e2e"],
+    "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
-    "changelog": {
-      "projectChangelogs": {
-        "createRelease": "github"
-      }
-    },
     "version": {
-      "generatorOptions": {
-        "packageRoot": "dist/apps/{projectName}/{projectName}/browser"
-      }
+      "conventionalCommits": true
     }
   }
 }
