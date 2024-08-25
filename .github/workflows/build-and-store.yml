@@ -24,7 +24,7 @@ jobs:
       # Run this command as early as possible, before dependencies are installed
       # Learn more at https://nx.dev/ci/reference/nx-cloud-cli#npx-nxcloud-startcirun
       - name: Enable task distribution via Nx Cloud
-        run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="e2e-ci"
+        run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="release"
 
       - name: Read Node.js version from .nvmrc file
         run: |
@@ -53,32 +53,23 @@ jobs:
       # Prepend any command with "nx-cloud record --" to record its logs to Nx Cloud
       # - run: npx nx-cloud record -- echo Hello World
       # Nx Affected runs only tasks affected by the changes in this PR/commit. Learn more: https://nx.dev/ci/features/affected
-      - name: Check affected
-        run: npx nx affected -t lint test build e2e-ci
-#      - name: Build static site
-#        run: |
-#          npm run build
-#          cp package.json dist/package.json
-#          cp package-lock.json dist/package-lock.json
-#
-#      - name: Semantic Release
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: npx semantic-release
-#
-#      - name: Version update
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        run: |
-#          git config --global user.name "github-actions[bot]"
-#          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-#          cp dist/package.json package.json -f
-#          cp dist/package-lock.json package-lock.json -f
-#          if [ -n "$(git status --porcelain)" ]; then
-#            git add package.json package-lock.json
-#            VERSION=$(npm pkg get version --prefix "$(dirname "dist/package.json")" | tr -d '"')
-#            git commit -m "chore(version-update): ${VERSION} [skip ci]"
-#            git push
-#          else
-#            echo "No version updates to commit."
-#          fi
+      - name: Lint affected
+        run: npx nx affected -t lint
+
+      - name: Test affected
+        run: npx nx affected -t test
+
+      - name: Set version affected
+        run: npx nx release version
+
+      - name: Build affected
+        run: npx nx affected -t build
+
+      - name: E2E affected
+        run: npx nx affected -t e2e-ci
+
+      - name: Generate CHANGELOG affected
+        run: npx nx affected -t release -- --type=changelog
+
+      - name: Publish affected
+        run: npx nx affected -t release -- --type=publish

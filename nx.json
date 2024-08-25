@@ -68,5 +68,18 @@
       "style": "scss",
       "unitTestRunner": "jest"
     }
+  },
+  "release": {
+    "projects": ["*", "!*-e2e"],
+    "projectsRelationship": "independent",
+    "version": {
+      "conventionalCommits": true,
+      "generatorOptions": {
+        "fallbackCurrentVersionResolver": "disk"
+      }
+    },
+    "changelog": {
+      "projectChangelogs": true
+    }
   }
 }

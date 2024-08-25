@@ -20,6 +20,10 @@
           {
             "glob": "**/*",
             "input": "apps/shell/shell/public"
+          },
+          {
+            "glob": "package.json",
+            "input": "apps/shell/shell"
           }
         ],
         "styles": ["apps/shell/shell/src/styles.scss"],
