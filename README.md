@@ -15,10 +15,12 @@ npx nx g @nx/angular:app shell --directory=apps/shell/shell
 
 2. Delete `.prettierrc` file
 3. Create scripts in `package.json` and run all of them to check if everything is working
+4. Add record to nx.json release.projects
 
 ## TODO
 
-- CI/CD pipeline
-- SemVer Changelog
+- CI pipeline PUBLISH
+- SemVer Changelog and precommit hook
+
 - microfrontends vs libs
 - protect repo branch

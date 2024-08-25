@@ -68,5 +68,17 @@
       "style": "scss",
       "unitTestRunner": "jest"
     }
+  },
+  "release": {
+    "projects": ["apps/shell/shell", "apps/dashboard/dashboard"],
+    "projectsRelationship": "independent",
+    "version": {
+      "conventionalCommits": true
+    },
+    "changelog": {
+      "projectChangelogs": {
+        "createRelease": "github"
+      }
+    }
   }
 }
