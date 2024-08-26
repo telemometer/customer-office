@@ -73,28 +73,10 @@
     "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
     "version": {
-      "conventionalCommits": true,
-      "generatorOptions": {
-        "fallbackCurrentVersionResolver": "disk"
-      }
+      "conventionalCommits": true
     },
     "changelog": {
-      "automaticFromRef": true,
-      "projectChangelogs": {
-        "createRelease": "github",
-        "renderOptions": {
-          "authors": true,
-          "commitReferences": true,
-          "versionTitleDate": true
-        }
-      }
-    }
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "options": {
-        "cacheableOperations": ["build", "test", "lint", "e2e"]
-      }
+      "projectChangelogs": true
     }
   }
 }
