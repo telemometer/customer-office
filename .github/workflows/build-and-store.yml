@@ -20,8 +20,9 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Enable task distribution via Nx Cloud
-        run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="release"
+      #- name: Enable task distribution via Nx Cloud
+      #  run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="release"
+      #  npx nx-cloud record -- command
 
       - name: Read Node.js version from .nvmrc file
         run: |
@@ -64,18 +65,18 @@ jobs:
         shell: bash
 
       - name: Set version affected
-        run: npx nx-cloud record -- ./tools/scripts/release-command-loop-for-all-affected.sh version ${{ env.PREID }}
+        run: ./tools/scripts/release-command-loop-for-all-affected.sh version ${{ env.PREID }}
 
       - name: Build affected
-        run: npx nx-cloud record -- npx nx affected -t build
+        run: npx nx affected -t build
 
 #      - name: E2E affected
 #        run: npx nx-cloud record -- npx nx affected -t e2e-ci
 
       - name: Generate CHANGELOG affected
-        run: npx nx-cloud record -- ./tools/scripts/release-command-loop-for-all-affected.sh changelog ${{ env.PREID }}
+        run: ./tools/scripts/release-command-loop-for-all-affected.sh changelog ${{ env.PREID }}
 
       - name: Publish affected
         env:
           GH_TOKEN: ${{ github.token }}
-        run: npx nx-cloud record -- ./tools/scripts/release-command-loop-for-all-affected.sh publish ${{ env.PREID }}
+        run: ./tools/scripts/release-command-loop-for-all-affected.sh publish ${{ env.PREID }}
