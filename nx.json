@@ -79,7 +79,12 @@
       }
     },
     "changelog": {
-      "projectChangelogs": true
+      "automaticFromRef": true,
+      "projectChangelogs": true,
+      "workspaceChangelog": false,
+      "git": {
+        "commit": false
+      }
     }
   }
 }
