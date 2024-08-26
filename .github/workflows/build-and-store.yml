@@ -53,8 +53,19 @@ jobs:
 #      - name: Test affected
 #        run: npx nx-cloud record -- npx nx affected -t test
 
+      - name: Determine PREID
+        id: preid_step
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "PREID=PR-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          else
+            echo "PREID=" >> $GITHUB_ENV
+          fi
+          echo "PREID={{ env.PREID }}"
+        shell: bash
+
       - name: Set version affected
-        run: npx nx-cloud record -- ./tools/scripts/release-command-loop-for-all-affected.sh version
+        run: npx nx-cloud record -- ./tools/scripts/release-command-loop-for-all-affected.sh version ${{ env.PREID }}
 
       - name: Build affected
         run: npx nx-cloud record -- npx nx affected -t build

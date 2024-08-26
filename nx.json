@@ -76,6 +76,9 @@
       "conventionalCommits": true,
       "generatorOptions": {
         "fallbackCurrentVersionResolver": "disk"
+      },
+      "git": {
+        "commit": false
       }
     },
     "changelog": {
