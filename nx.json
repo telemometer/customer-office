@@ -14,7 +14,6 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/.github/workflows/build-and-store.yml", "{workspaceRoot}/.nvmrc"]
   },
-  "nxCloudAccessToken": "NDNiMWU2ZDctYmMwNi00ZTNmLThmM2QtMGQ3MTZkMTFhMzE1fHJlYWQtd3JpdGU=",
   "targetDefaults": {
     "@angular-devkit/build-angular:application": {
       "cache": true,
@@ -76,6 +75,9 @@
       "conventionalCommits": true,
       "generatorOptions": {
         "fallbackCurrentVersionResolver": "disk"
+      },
+      "git": {
+        "commit": false
       }
     },
     "changelog": {

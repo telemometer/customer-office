@@ -20,9 +20,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Enable task distribution via Nx Cloud
-        run: npx nx-cloud start-ci-run --distribute-on="3 linux-medium-js" --stop-agents-after="release"
-
       - name: Read Node.js version from .nvmrc file
         run: |
           NODE_VERSION=$(cat .nvmrc)
@@ -38,29 +35,44 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-#      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
-#        run: npm audit signatures
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
 
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
 
-#      - name: Check formatting
-#        run: npx nx-cloud record -- npx nx format:check
+      - name: Check formatting
+        run: npx nx format:check
 
-#      - name: Lint affected
-#        run: npx nx-cloud record -- npx nx affected -t lint
+      - name: Lint affected
+        run: npx nx affected -t lint
 
-#      - name: Test affected
-#        run: npx nx-cloud record -- npx nx affected -t test
+      - name: Test affected
+        run: npx nx affected -t test
+
+      - name: Determine PREID
+        id: preid_step
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "PREID=PR-${{ github.event.pull_request.number }}" >> $GITHUB_ENV
+          else
+            echo "PREID=" >> $GITHUB_ENV
+          fi
+        shell: bash
 
       - name: Set version affected
-        run: npx nx-cloud record -- ./tools/scripts/release-command-loop-for-all-affected.sh version
+        run: ./tools/scripts/release-command-loop-for-all-affected.sh version ${{ env.PREID }}
 
       - name: Build affected
-        run: npx nx-cloud record -- npx nx affected -t build
+        run: npx nx affected -t build
 
-#      - name: E2E affected
-#        run: npx nx-cloud record -- npx nx affected -t e2e-ci
+      - name: E2E affected
+        run: npx nx affected -t e2e
 
       - name: Generate CHANGELOG affected
-        run: npx nx-cloud record -- ./tools/scripts/release-command-loop-for-all-affected.sh changelog
+        run: ./tools/scripts/release-command-loop-for-all-affected.sh changelog ${{ env.PREID }}
+
+      - name: Publish affected
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./tools/scripts/release-command-loop-for-all-affected.sh publish ${{ env.PREID }}
