@@ -60,7 +60,7 @@ jobs:
         run: npx nx affected -t test
 
       - name: Set version affected
-        run: npx nx affected -t release -- --type=version
+        run: npx nx release version
 
       - name: Build affected
         run: npx nx affected -t build
@@ -69,7 +69,4 @@ jobs:
         run: npx nx affected -t e2e-ci
 
       - name: Generate CHANGELOG affected
-        run: npx nx affected -t release -- --type=changelog
-
-      - name: Publish affected
-        run: npx nx affected -t release -- --type=publish
+        run: npx nx release changelog 0.2.0 --git-tag=false

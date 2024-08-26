@@ -79,8 +79,14 @@
       }
     },
     "changelog": {
+      "automaticFromRef": true,
       "projectChangelogs": {
-        "createRelease": "github"
+        "createRelease": "github",
+        "renderOptions": {
+          "authors": true,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
       }
     }
   },
