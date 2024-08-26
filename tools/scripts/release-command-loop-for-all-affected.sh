@@ -14,7 +14,7 @@ fi
 
 preid="$2"
 
-projects=$(nx show projects --type app --affected)
+projects=$(npx nx show projects --type app --affected)
 
 for project in $projects
 do
@@ -36,9 +36,17 @@ do
     if [ -z "$preid" ]; then
       zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
       gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --latest
+      git config --global user.name "github-actions[bot]"
+      git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      if [ -n "$(git status --porcelain)" ]; then
+        git commit -m "chore(release): $project-$version [skip ci]"
+        git push
+      else
+        echo "No version updates to commit."
+      fi
     else
       zip -r "./dist/apps/$project/$project/$project-$version-$preid.zip" -j ./dist/apps/"$project"/"$project"/browser
-      gh release create "$project-$version-$preid" "./dist/apps/$project/$project/$project-$version-$preid.zip" -t=$project-$version-$preid --notes-file=apps/"$project"/"$project"/CHANGELOG.md --draft --prerelease
+      gh release create "$project-$version-$preid" "./dist/apps/$project/$project/$project-$version-$preid.zip" -t=$project-$version-$preid --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
     fi
   fi
 done
