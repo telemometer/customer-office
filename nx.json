@@ -73,13 +73,12 @@
     "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
     "version": {
-      "conventionalCommits": true,
-      "generatorOptions": {
-        "fallbackCurrentVersionResolver": "disk"
-      }
+      "conventionalCommits": true
     },
     "changelog": {
-      "projectChangelogs": true
+      "projectChangelogs": {
+        "createRelease": "github"
+      }
     }
   },
   "tasksRunnerOptions": {
