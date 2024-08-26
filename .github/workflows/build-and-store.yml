@@ -60,7 +60,7 @@ jobs:
         run: npx nx affected -t test
 
       - name: Set version affected
-        run: npx nx release version
+        run: ./tools/scripts/release-command-loop-for-all-affected.sh version
 
       - name: Build affected
         run: npx nx affected -t build
@@ -69,4 +69,4 @@ jobs:
         run: npx nx affected -t e2e-ci
 
       - name: Generate CHANGELOG affected
-        run: npx nx release changelog 0.2.0 --git-tag=false
+        run: ./tools/scripts/release-command-loop-for-all-affected.sh changelog
