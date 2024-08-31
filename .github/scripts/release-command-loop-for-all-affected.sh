@@ -43,7 +43,7 @@ do
       git config --global user.email "github-actions[bot]@users.noreply.github.com"
       if [ -n "$(git status --porcelain)" ]; then
         npx nx format:write
-        git commit -m "chore(release): $project-$version [skip ci]"
+        git commit -am "chore(release): $project-$version [skip ci]"
         git push
       else
         echo "No version updates to commit."
