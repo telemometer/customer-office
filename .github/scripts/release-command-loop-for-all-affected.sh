@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -x
+
 if [ -z "$1" ]; then
   echo "Usage: $0 <release-argument> [<preid>]"
   echo "The first argument must be either 'version' or 'changelog' or 'publish'"
@@ -48,6 +50,11 @@ do
       zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
       gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md
     else
+      gh auth login
+      pr_number=$(echo "$preid" | awk -F'-' '{print $2}')
+      releases=$(gh release list --limit 100 | grep -E "PR-${pr_number}")
+      echo "Releases found: $releases"
+
       zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
       gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
     fi
