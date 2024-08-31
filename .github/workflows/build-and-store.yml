@@ -74,4 +74,6 @@ jobs:
         run: .github/scripts/release-command-loop-for-all-affected.sh changelog ${{ env.PREID }}
 
       - name: Publish affected
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: .github/scripts/release-command-loop-for-all-affected.sh publish ${{ env.PREID }}
