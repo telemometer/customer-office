@@ -81,7 +81,8 @@
         "fallbackCurrentVersionResolver": "disk"
       },
       "git": {
-        "commit": false
+        "commit": false,
+        "stageChanges": true
       }
     },
     "changelog": {
@@ -89,7 +90,8 @@
       "projectChangelogs": true,
       "workspaceChangelog": false,
       "git": {
-        "commit": false
+        "commit": false,
+        "stageChanges": true
       }
     }
   }
