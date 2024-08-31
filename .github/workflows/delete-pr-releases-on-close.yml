@@ -13,9 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up GitHub CLI
-        uses: actions/setup-gh@v2
-
       - name: Delete associated release and tag
         run: |
           gh auth login --with-token ${{ secrets.ADMIN_GITHUB_TOKEN }}
