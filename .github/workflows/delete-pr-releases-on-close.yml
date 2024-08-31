@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ssh-key: ${{secrets.PUSH_KEY}}
 
       - name: Delete associated release and tag
         run: |
@@ -22,6 +24,13 @@ jobs:
 
           # Fetch all releases associated with this PR
           releases=$(gh release list --limit 100 | grep -E "PR-${pr_number}")
+          echo "Releases found: $releases"
+
+          # Exit early if no releases are found
+          if [ -z "$releases" ]; then
+            echo "No releases found for PR-${pr_number}. Exiting."
+            exit 0
+          fi
 
           # Loop through releases and delete them along with tags
           while IFS= read -r release; do
