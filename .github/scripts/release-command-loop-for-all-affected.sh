@@ -37,7 +37,6 @@ do
     npx nx release changelog --version="$version" -p "$project" --git-tag=false
   elif [ "$1" == "publish" ]; then
     if [ -z "$preid" ]; then
-      gh auth login --with-token GH_TOKEN
       git config --global user.name "github-actions[bot]"
       git config --global user.email "github-actions[bot]@users.noreply.github.com"
       if [ -n "$(git status --porcelain)" ]; then

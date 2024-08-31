@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ssh-key: ${{secrets.PUSH_KEY}}
 
       - name: Delete associated release and tag
         env:
