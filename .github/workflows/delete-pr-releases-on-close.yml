@@ -20,7 +20,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -x
-          gh auth login
 
           pr_number=${{ github.event.pull_request.number }}
           repo=${{ github.repository }}
