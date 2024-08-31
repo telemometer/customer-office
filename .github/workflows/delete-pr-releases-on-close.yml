@@ -5,6 +5,10 @@ on:
     types:
       - closed
 
+permissions:
+  actions: read
+  contents: write
+
 jobs:
   delete_prerelease_and_tag:
     runs-on: ubuntu-latest
