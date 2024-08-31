@@ -37,8 +37,9 @@ do
     npx nx release changelog --version="$version" -p "$project" --git-tag=false
   elif [ "$1" == "publish" ]; then
     if [ -z "$preid" ]; then
-      git config --global user.name "Andrey Korovin"
-      git config --global user.email "misticwonder@gmail.com"
+      gh auth login --with-token GH_TOKEN
+      git config --global user.name "github-actions[bot]"
+      git config --global user.email "github-actions[bot]@users.noreply.github.com"
       if [ -n "$(git status --porcelain)" ]; then
         git commit -m "chore(release): $project-$version [skip ci]"
         git push
@@ -46,7 +47,7 @@ do
         echo "No version updates to commit."
       fi
       zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
-      gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --latest
+      gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md
     else
       zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
       gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
