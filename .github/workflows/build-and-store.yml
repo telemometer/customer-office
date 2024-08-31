@@ -74,5 +74,5 @@ jobs:
 
       - name: Publish affected
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.ADMIN_GITHUB_TOKEN }}
         run: .github/scripts/release-command-loop-for-all-affected.sh publish ${{ env.PREID }}
