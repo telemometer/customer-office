@@ -47,7 +47,7 @@ do
         echo "No version updates to commit."
       fi
       zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
-      gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --latest
+      gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md
     else
       zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
       gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
