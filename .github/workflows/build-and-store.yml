@@ -18,6 +18,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ssh-key: ${{secrets.PUSH_KEY}}
           fetch-depth: 0
 
       - name: Read Node.js version from .nvmrc file
@@ -73,6 +74,4 @@ jobs:
         run: .github/scripts/release-command-loop-for-all-affected.sh changelog ${{ env.PREID }}
 
       - name: Publish affected
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: .github/scripts/release-command-loop-for-all-affected.sh publish ${{ env.PREID }}
