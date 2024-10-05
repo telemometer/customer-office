@@ -9,7 +9,7 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-if [ "$1" != "version" ] && [ "$1" != "changelog" ] && [ "$1" != "publish" ]; then
+if [ "$1" != "changelog" ] && [ "$1" != "publish" ]; then
   echo "Error: First argument must be either 'version' or 'changelog' or 'publish'"
   exit 1
 fi
@@ -27,16 +27,8 @@ do
     exit 1
   fi
 
-  if [ "$1" == "version" ]; then
-    if [ -z "$preid" ]; then
-      npx nx release version -p "$project" --git-tag=false
-    else
-      cd apps/"$project"/"$project"/ || exit 1
-      npm version "$version-$preid"
-      cd "$original_dir" || exit 1
-    fi
-  elif [ "$1" == "changelog" ]; then
-    npx nx release changelog --version="$version" -p "$project" --git-tag=false
+  if [ "$1" == "changelog" ]; then
+    npx nx release changelog --version="$version" -p "$project"
   elif [ "$1" == "publish" ]; then
     if [ -z "$preid" ]; then
       git config --global user.name "github-actions[bot]"
