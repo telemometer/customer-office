@@ -82,7 +82,8 @@
       },
       "git": {
         "commit": false,
-        "stageChanges": true
+        "stageChanges": true,
+        "tag": true
       }
     },
     "changelog": {
