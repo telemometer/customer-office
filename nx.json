@@ -75,25 +75,23 @@
   "release": {
     "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
+    "git": {
+      "commit": false,
+      "stageChanges": true,
+      "tag": true
+    },
     "version": {
       "conventionalCommits": true,
       "generatorOptions": {
         "fallbackCurrentVersionResolver": "disk"
-      },
-      "git": {
-        "commit": false,
-        "stageChanges": true,
-        "tag": true
       }
     },
     "changelog": {
       "automaticFromRef": true,
-      "projectChangelogs": true,
-      "workspaceChangelog": false,
-      "git": {
-        "commit": false,
-        "stageChanges": true
-      }
+      "projectChangelogs": {
+        "entryWhenNoChanges": false
+      },
+      "workspaceChangelog": false
     }
   }
 }

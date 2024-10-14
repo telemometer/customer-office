@@ -62,16 +62,18 @@ jobs:
         shell: bash
 
       - name: Set version affected
-        run: .github/scripts/release-command-loop-for-all-affected.sh version ${{ env.PREID }}
+        run: |
+          if [ -n "${{ env.PREID }}" ]; then
+            npx nx release version --specifier=prerelease --preid="${{ env.PREID }}"
+          else
+            npx nx release --skip-publish
+          fi
 
       - name: Build affected
         run: npx nx affected -t build
 
       - name: E2E affected
         run: npx nx affected -t e2e
-
-      - name: Generate CHANGELOG affected
-        run: .github/scripts/release-command-loop-for-all-affected.sh changelog ${{ env.PREID }}
 
       - name: Publish affected
         env:
