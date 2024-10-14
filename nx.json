@@ -12,11 +12,7 @@
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/test-setup.[jt]s"
     ],
-    "sharedGlobals": [
-      "{workspaceRoot}/.github/workflows/build-and-store.yml",
-      "{workspaceRoot}/.github/workflows/delete-pr-releases-on-close.yml",
-      "{workspaceRoot}/.nvmrc"
-    ]
+    "sharedGlobals": ["{workspaceRoot}/.github/**/*", "{workspaceRoot}/.nvmrc"]
   },
   "targetDefaults": {
     "@angular-devkit/build-angular:application": {
