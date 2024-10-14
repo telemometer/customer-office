@@ -63,6 +63,8 @@ jobs:
             npx nx release version --specifier=prerelease --preid="PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
           else
             npx nx release --skip-publish
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
             git push
           fi
         shell: bash
