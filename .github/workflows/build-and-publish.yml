@@ -61,15 +61,18 @@ jobs:
 
       - name: Changelog and Version
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            npx nx release version --specifier=prerelease --preid="PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
-          else
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            npx nx release --skip-publish
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          npx nx release --skip-publish
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
             git push --tags
           fi
         shell: bash
 
       - name: Build affected
         run: npx nx affected -t build
+
+      - name: Publish affected
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: .github/scripts/publish-affected.sh ${{ github.event_name == 'pull_request' }}

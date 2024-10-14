@@ -3,18 +3,9 @@
 set -x
 
 if [ -z "$1" ]; then
-  echo "Usage: $0 <release-argument> [<preid>]"
-  echo "The first argument must be either 'version' or 'changelog' or 'publish'"
-  echo "The second argument is optional and is the preid (e.g., 'alpha', 'beta', etc.)"
+  echo "Error: No argument supplied. Please provide 'true' or 'false' for prerelease status."
   exit 1
 fi
-
-if [ "$1" != "changelog" ] && [ "$1" != "publish" ]; then
-  echo "Error: First argument must be either 'version' or 'changelog' or 'publish'"
-  exit 1
-fi
-
-preid="$2"
 
 projects=$(npx nx show projects --type app --affected)
 original_dir=$(pwd)
@@ -27,26 +18,14 @@ do
     exit 1
   fi
 
-  if [ "$1" == "publish" ]; then
-    if [ -z "$preid" ]; then
-      git config --global user.name "github-actions[bot]"
-      git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      if [ -n "$(git status --porcelain)" ]; then
-        git commit -m "chore(release): $project-$version [skip ci]"
-        git push
-      else
-        echo "No version updates to commit."
-      fi
-      zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
-      gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md
-    else
-      gh auth login
-      pr_number=$(echo "$preid" | awk -F'-' '{print $2}')
-      releases=$(gh release list --limit 100 | grep -E "PR-${pr_number}")
-      echo "Releases found: $releases"
+  zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
 
-      zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
-      gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
-    fi
+  if [ "$1" == "true" ]; then
+    gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
+  elif [ "$1" == "false" ]; then
+    gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md
+  else
+    echo "Error: Invalid argument. Please use 'true' or 'false'."
+    exit 1
   fi
 done
