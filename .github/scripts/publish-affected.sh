@@ -3,7 +3,6 @@
 set -x
 
 projects=$(npx nx show projects --type app --affected)
-original_dir=$(pwd)
 
 for project in $projects
 do

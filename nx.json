@@ -44,11 +44,6 @@
     },
     "e2e-ci--**/*": {
       "dependsOn": ["^build"]
-    },
-    "nx-release-publish": {
-      "options": {
-        "packageRoot": "dist/apps/{projectName}/{projectName}/browser"
-      }
     }
   },
   "plugins": [
