@@ -71,7 +71,11 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Version and Changelog
-        run: npx nx release --skip-publish
+        run: |
+          npx nx release --skip-publish
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            git push
+          fi
 
       - name: Build affected
         run: npx nx affected -t build
