@@ -70,9 +70,9 @@
   },
   "release": {
     "git": {
-      "tag": false,
-      "commit": true,
-      "commitMessage": "chore(release): release {version} [skip ci]"
+      "stageChanges": true,
+      "commit": false,
+      "tag": false
     },
     "releaseTagPattern": "release/{projectName}/{version}",
     "projects": ["*", "!*-e2e"],
