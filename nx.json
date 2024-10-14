@@ -75,11 +75,6 @@
   "release": {
     "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
-    "git": {
-      "commit": false,
-      "stageChanges": true,
-      "tag": true
-    },
     "version": {
       "conventionalCommits": true,
       "generatorOptions": {
@@ -87,11 +82,11 @@
       }
     },
     "changelog": {
-      "automaticFromRef": true,
       "projectChangelogs": {
         "entryWhenNoChanges": false
       },
-      "workspaceChangelog": false
+      "workspaceChangelog": false,
+      "automaticFromRef": true
     }
   }
 }
