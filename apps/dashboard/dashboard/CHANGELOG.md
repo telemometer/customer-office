@@ -1,3 +1,21 @@
+# 1.0.0 (2024-10-14)
+
+
+### 🩹 Fixes
+
+- **BREAKING CHANGE:** ololo
+
+- ⚠️  **dash:** bre
+
+
+#### ⚠️  Breaking Changes
+
+- ⚠️  **dash:** bre
+
+### ❤️  Thank You
+
+- Andrey Korovin
+
 ## 0.5.0 (2024-10-14)
 
 
