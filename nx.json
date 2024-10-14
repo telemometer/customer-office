@@ -69,6 +69,10 @@
     }
   },
   "release": {
+    "git": {
+      "tag": false
+    },
+    "releaseTagPattern": "{projectName}-{version}",
     "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
     "version": {
