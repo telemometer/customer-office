@@ -71,22 +71,24 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Version and Changelog
-        run: |
-          npx nx release --skip-publish
-          if [ "${{ github.event_name }}" != "pull_request" ]; then
-            git push
-          fi
-
-      - name: Build affected
-        run: npx nx affected -t build
-
-      - name: Publish affected
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
+          old_version=$(cat package.json | grep '"version"' | cut -d '"' -f 4)
+          npx nx release --skip-publish
+          new_version=$(cat package.json | grep '"version"' | cut -d '"' -f 4)
+
+          echo "old_version=$old_version"
+          echo "new_version=$new_version"
+
+          if [ "$old_version" != "$new_version" ]; then
+            npx nx affected -t build
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
+              .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
+            else
+              .github/scripts/publish-affected.sh
+              git push --tags
+            fi
           else
-            .github/scripts/publish-affected.sh
-            git push --tags
+            echo "Version has not changed."
           fi

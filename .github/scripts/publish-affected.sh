@@ -18,6 +18,9 @@ do
     gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version" --notes-file=apps/"$project"/"$project"/CHANGELOG.md
   else
     # Publish a pre-release with SHA
+    pushd ./dist/apps/"$project"/"$project"/browser
+    npm version $version-$1
+    popd
     zip -r "./dist/apps/$project/$project/$project-$version-$1.zip" -j ./dist/apps/"$project"/"$project"/browser
     gh release create "$project/$version-$1" "./dist/apps/$project/$project/$project-$version-$1.zip" -t=$project/$version-$1 --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
   fi
