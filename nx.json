@@ -71,7 +71,8 @@
   "release": {
     "git": {
       "tag": false,
-      "commit": true
+      "commit": true,
+      "commitMessage": "chore(release): release {version} [skip ci]"
     },
     "releaseTagPattern": "release/{projectName}/{version}",
     "projects": ["*", "!*-e2e"],
