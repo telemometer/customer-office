@@ -75,6 +75,9 @@
   "release": {
     "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
+    "git": {
+      "tag": false
+    },
     "version": {
       "conventionalCommits": true,
       "generatorOptions": {
