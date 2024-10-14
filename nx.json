@@ -81,7 +81,8 @@
       "projectChangelogs": {
         "entryWhenNoChanges": false
       },
-      "workspaceChangelog": false
+      "workspaceChangelog": false,
+      "automaticFromRef": true
     }
   }
 }
