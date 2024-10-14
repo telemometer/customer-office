@@ -65,30 +65,18 @@ jobs:
       - name: E2E affected
         run: npx nx affected -t e2e
 
-      - name: Git config
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Version and Changelog
+      - name: Release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          old_version=$(cat package.json | grep '"version"' | cut -d '"' -f 4)
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npx nx release --skip-publish
-          new_version=$(cat package.json | grep '"version"' | cut -d '"' -f 4)
-
-          echo "old_version=$old_version"
-          echo "new_version=$new_version"
-
-          if [ "$old_version" != "$new_version" ]; then
-            npx nx affected -t build
-            if [ "${{ github.event_name }}" == "pull_request" ]; then
-              .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
-            else
-              .github/scripts/publish-affected.sh
-              git push --tags
-            fi
+          npx nx affected -t build
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
           else
-            echo "Version has not changed."
+            .github/scripts/publish-affected.sh
+            git commit -am "chore(release): release [skip ci]"
+            git push --tags
           fi
