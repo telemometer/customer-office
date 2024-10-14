@@ -79,20 +79,14 @@
       "conventionalCommits": true,
       "generatorOptions": {
         "fallbackCurrentVersionResolver": "disk"
-      },
-      "git": {
-        "commit": false,
-        "stageChanges": true
       }
     },
     "changelog": {
-      "automaticFromRef": true,
-      "projectChangelogs": true,
+      "projectChangelogs": {
+        "entryWhenNoChanges": false
+      },
       "workspaceChangelog": false,
-      "git": {
-        "commit": false,
-        "stageChanges": true
-      }
+      "automaticFromRef": true
     }
   }
 }

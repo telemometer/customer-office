@@ -1,14 +1,16 @@
-name: Build and Store
+name: Build and Publish
 
 on:
   push:
     branches:
       - main
   pull_request:
-
-permissions:
-  actions: read
-  contents: write
+    types:
+      - opened
+      - reopened
+      - synchronize
+    branches:
+      - main
 
 jobs:
   release:
@@ -18,14 +20,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ssh-key: ${{secrets.PUSH_KEY}}
           fetch-depth: 0
 
       - name: Read Node.js version from .nvmrc file
         run: |
           NODE_VERSION=$(cat .nvmrc)
           echo "NODE_VERSION=$NODE_VERSION" >> $GITHUB_ENV
-          echo "NODE_VERSION=$NODE_VERSION"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -51,29 +51,18 @@ jobs:
       - name: Test affected
         run: npx nx affected -t test
 
-      - name: Determine PREID
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            COMMIT_HASH=$(git rev-parse --short HEAD)
-            echo "PREID=PR-${{ github.event.pull_request.number }}-${COMMIT_HASH}" >> $GITHUB_ENV
-          else
-            echo "PREID=" >> $GITHUB_ENV
-          fi
-        shell: bash
-
-      - name: Set version affected
-        run: .github/scripts/release-command-loop-for-all-affected.sh version ${{ env.PREID }}
-
       - name: Build affected
         run: npx nx affected -t build
 
       - name: E2E affected
         run: npx nx affected -t e2e
 
-      - name: Generate CHANGELOG affected
-        run: .github/scripts/release-command-loop-for-all-affected.sh changelog ${{ env.PREID }}
-
-      - name: Publish affected
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: .github/scripts/release-command-loop-for-all-affected.sh publish ${{ env.PREID }}
+      - name: Changelog and Version
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            npx nx release version --specifier=prerelease --preid="PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
+          else
+            npx nx release --skip-publish
+            git push
+          fi
+        shell: bash
