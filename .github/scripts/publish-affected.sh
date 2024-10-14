@@ -27,9 +27,7 @@ do
     exit 1
   fi
 
-  if [ "$1" == "changelog" ]; then
-    npx nx release changelog --version="$version" -p "$project"
-  elif [ "$1" == "publish" ]; then
+  if [ "$1" == "publish" ]; then
     if [ -z "$preid" ]; then
       git config --global user.name "github-actions[bot]"
       git config --global user.email "github-actions[bot]@users.noreply.github.com"
