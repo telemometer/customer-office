@@ -20,12 +20,14 @@ jobs:
   release:
     name: Build and Publish
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ssh-key: ${{secrets.REPO_PUSH_KEY}}
+          ssh-key: ${{ secrets.REPO_PUSH_KEY }}
 
       - name: Read Node.js version from .nvmrc file
         run: |
@@ -61,15 +63,23 @@ jobs:
 
       - name: Changelog and Version
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            npx nx release version --specifier=prerelease --preid="PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
-          else
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "github-actions[bot]@users.noreply.github.com"
-            npx nx release --skip-publish
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          npx nx release --skip-publish
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
             git push --tags
           fi
         shell: bash
 
       - name: Build affected
         run: npx nx affected -t build
+
+      - name: Publish affected
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
+          else
+            .github/scripts/publish-affected.sh
+          fi

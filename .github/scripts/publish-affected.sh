@@ -2,20 +2,6 @@
 
 set -x
 
-if [ -z "$1" ]; then
-  echo "Usage: $0 <release-argument> [<preid>]"
-  echo "The first argument must be either 'version' or 'changelog' or 'publish'"
-  echo "The second argument is optional and is the preid (e.g., 'alpha', 'beta', etc.)"
-  exit 1
-fi
-
-if [ "$1" != "changelog" ] && [ "$1" != "publish" ]; then
-  echo "Error: First argument must be either 'version' or 'changelog' or 'publish'"
-  exit 1
-fi
-
-preid="$2"
-
 projects=$(npx nx show projects --type app --affected)
 original_dir=$(pwd)
 
@@ -27,26 +13,13 @@ do
     exit 1
   fi
 
-  if [ "$1" == "publish" ]; then
-    if [ -z "$preid" ]; then
-      git config --global user.name "github-actions[bot]"
-      git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      if [ -n "$(git status --porcelain)" ]; then
-        git commit -m "chore(release): $project-$version [skip ci]"
-        git push
-      else
-        echo "No version updates to commit."
-      fi
-      zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
-      gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md
-    else
-      gh auth login
-      pr_number=$(echo "$preid" | awk -F'-' '{print $2}')
-      releases=$(gh release list --limit 100 | grep -E "PR-${pr_number}")
-      echo "Releases found: $releases"
-
-      zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
-      gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
-    fi
+  if [ -z "$1" ]; then
+    # Publish a stable release
+    zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
+    gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md
+  else
+    # Publish a pre-release with SHA
+    zip -r "./dist/apps/$project/$project/$project-$version-$1.zip" -j ./dist/apps/"$project"/"$project"/browser
+    gh release create "$project-$version-$1" "./dist/apps/$project/$project/$project-$version-$1.zip" -t=$project-$version-$1 --notes-file=apps/"$project"/"$project"/CHANGELOG.md --prerelease
   fi
 done
