@@ -12,15 +12,20 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
 jobs:
   release:
-    name: Release
+    name: Build and Publish
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ssh-key: ${{secrets.REPO_PUSH_KEY}}
 
       - name: Read Node.js version from .nvmrc file
         run: |
@@ -51,9 +56,6 @@ jobs:
       - name: Test affected
         run: npx nx affected -t test
 
-      - name: Build affected
-        run: npx nx affected -t build
-
       - name: E2E affected
         run: npx nx affected -t e2e
 
@@ -62,7 +64,12 @@ jobs:
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             npx nx release version --specifier=prerelease --preid="PR-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}"
           else
+            git config --global user.name "github-actions[bot]"
+            git config --global user.email "github-actions[bot]@users.noreply.github.com"
             npx nx release --skip-publish
-            git push
+            git push --tags
           fi
         shell: bash
+
+      - name: Build affected
+        run: npx nx affected -t build
