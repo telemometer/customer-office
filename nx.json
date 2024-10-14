@@ -44,6 +44,11 @@
     },
     "e2e-ci--**/*": {
       "dependsOn": ["^build"]
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/apps/{projectName}/{projectName}/browser"
+      }
     }
   },
   "plugins": [
@@ -71,22 +76,14 @@
   "release": {
     "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
-    "releaseTagPattern": "{projectName}-{version}",
-    "git": {
-      "commitMessage": "chore(release): {version}"
-    },
     "version": {
-      "conventionalCommits": true,
-      "generatorOptions": {
-        "fallbackCurrentVersionResolver": "disk"
-      }
+      "conventionalCommits": true
     },
     "changelog": {
       "projectChangelogs": {
         "entryWhenNoChanges": false
       },
-      "workspaceChangelog": false,
-      "automaticFromRef": true
+      "workspaceChangelog": false
     }
   }
 }

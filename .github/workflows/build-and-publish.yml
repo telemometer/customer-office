@@ -22,6 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write
+    timeout-minutes: 10
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -46,6 +48,9 @@ jobs:
       - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
         run: npm audit signatures
 
+      - name: Print Environment Info
+        run: npx nx report
+
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
 
@@ -61,23 +66,11 @@ jobs:
       - name: E2E affected
         run: npx nx affected -t e2e
 
+      - name: Build affected
+        run: npx nx affected -t build
+
       - name: Changelog and Version
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          npx nx release --skip-publish
-        shell: bash
-
-      - name: Build affected
-        run: npx nx affected -t build
-
-      - name: Publish affected
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
-          else
-            .github/scripts/publish-affected.sh
-            git push --tags
-          fi
+          npx nx release
