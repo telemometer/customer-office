@@ -73,8 +73,7 @@
     "projectsRelationship": "independent",
     "releaseTagPattern": "{projectName}-{version}",
     "git": {
-      "commitMessage": "chore(release): {version}",
-      "tag": false
+      "commitMessage": "chore(release): {version}"
     },
     "version": {
       "conventionalCommits": true,
