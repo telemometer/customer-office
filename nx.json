@@ -72,7 +72,7 @@
     "git": {
       "tag": false
     },
-    "releaseTagPattern": "{projectName}-{version}",
+    "releaseTagPattern": "release/{projectName}/{version}",
     "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
     "version": {

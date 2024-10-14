@@ -16,6 +16,7 @@ do
     # Publish a stable release
     zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
     gh release create "$project-$version" "./dist/apps/$project/$project/$project-$version.zip" -t=$project-$version --notes-file=apps/"$project"/"$project"/CHANGELOG.md
+    git tag release/"$project"/"$version"
   else
     # Publish a pre-release with SHA
     zip -r "./dist/apps/$project/$project/$project-$version-$1.zip" -j ./dist/apps/"$project"/"$project"/browser
