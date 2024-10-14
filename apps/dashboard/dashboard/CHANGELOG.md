@@ -1,3 +1,44 @@
+## 0.2.0 (2024-10-14)
+
+
+### 🚀 Features
+
+- **dash:** remove line 3
+
+
+### 🩹 Fixes
+
+- **all:** versions
+
+- **dash:** remove line
+
+- **dash:** remove line 2
+
+- **dash:** remove line 3
+
+- **dash:** remove line 4
+
+- **dash:** remove line 3
+
+- **dash:** changelogs created
+
+- **publisher:** now can publish
+
+- **publisher:** now can publish 1
+
+- **publisher:** now can publish 2
+
+- **publisher:** now can publish 3
+
+- **publisher:** now can publish 4
+
+- **publisher:** now can publish 4
+
+
+### ❤️  Thank You
+
+- Andrey Korovin
+
 ## 0.1.0 (2024-10-14)
 
 
