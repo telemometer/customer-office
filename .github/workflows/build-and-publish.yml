@@ -79,5 +79,5 @@ jobs:
             .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
           else
             .github/scripts/publish-affected.sh
-             git push --tags
+            git push --tags
           fi
