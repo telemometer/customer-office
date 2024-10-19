@@ -78,7 +78,9 @@ jobs:
           else
             .github/scripts/publish-affected.sh
             git commit -m "chore(release): release [skip ci]"
-            sleep 5
+            git push --tags
+            git status
+            git commit -m "chore(release): release [skip ci]"
             git push --tags
             git status
           fi
