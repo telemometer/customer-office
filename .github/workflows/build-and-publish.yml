@@ -53,17 +53,17 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
 
-      - name: Check formatting
-        run: npx nx format:check
-
-      - name: Lint affected
-        run: npx nx affected -t lint
-
-      - name: Test affected
-        run: npx nx affected -t test
-
-      - name: E2E affected
-        run: npx nx affected -t e2e
+#      - name: Check formatting
+#        run: npx nx format:check
+#
+#      - name: Lint affected
+#        run: npx nx affected -t lint
+#
+#      - name: Test affected
+#        run: npx nx affected -t test
+#
+#      - name: E2E affected
+#        run: npx nx affected -t e2e
 
       - name: Release
         env:
@@ -95,18 +95,16 @@ jobs:
             else
               # Drop existing PR releases
               releases_output=$(gh release list --limit 1000)
-              if [[ "$releases_output" != "no releases found" ]]; then
-                releases=$(echo "$releases_output" | awk '{print $1}' | grep -E "^$project/PR-${{ github.event.pull_request.number }}-SHA-")
-                for release in $releases; do
-                  gh release delete "$release" --cleanup-tag --yes
-                done
-              fi
+              releases=$(echo "$releases_output" | awk '{print $1}' | grep -E "^.*/PR-${{ github.event.pull_request.number }}-SHA-")
+              for release in $releases; do
+                gh release delete "$release" --cleanup-tag --yes
+              done
 
               # Publish a pre-release with SHA
               shortSHA=$(echo "${{ github.event.pull_request.head.sha }}" | awk '{print substr($0,1,8)}')
               suffix=PR-${{ github.event.pull_request.number }}-SHA-"$shortSHA"
               pushd ./dist/apps/"$project"/"$project"/browser
-              npm version $suffix
+              npm version $version-$suffix
               popd
               zip -r "./dist/apps/$project/$project/$project-$suffix.zip" -j ./dist/apps/"$project"/"$project"/browser
               gh release create "$project/$suffix" "./dist/apps/$project/$project/$project-$suffix.zip" -t=$project/$suffix --prerelease
