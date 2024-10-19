@@ -78,9 +78,7 @@ jobs:
           else
             .github/scripts/publish-affected.sh
             git commit -m "chore(release): release [skip ci]"
-            git remote show origin
-            git status
+            sleep 5
             git push --tags
-            git remote show origin
             git status
           fi
