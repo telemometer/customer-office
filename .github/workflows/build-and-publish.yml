@@ -90,9 +90,6 @@ jobs:
               # Publish a stable release
               zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
               gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version"
-              git commit -m "chore(release): release [skip ci]"
-              git push
-              git push --tags
             else
               # Publish a pre-release with SHA
               suffix=PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
@@ -103,3 +100,9 @@ jobs:
               gh release create "$project/$version-$suffix" "./dist/apps/$project/$project/$project-$version-$suffix.zip" -t=$project/$version-$suffix --prerelease
             fi
           done
+
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            git commit -m "chore(release): release [skip ci]"
+            git push
+            git push --tags
+          fi
