@@ -1,0 +1,33 @@
+name: Clear PR releases
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  release:
+    name: Clear PR releases
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    timeout-minutes: 10
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Drop closed PR releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Drop closed PR releases
+          releases=$(gh release list --limit 1000 | awk '{print $1}' | grep -E "^$project/PR-${{ github.event.pull_request.number }}-SHA-")
+          for release in $releases; do
+            gh release delete "$release" --cleanup-tag --yes
+          done
