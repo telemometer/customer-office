@@ -94,8 +94,7 @@ jobs:
               gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version"
             else
               # Drop existing PR releases
-              releases_output=$(gh release list --limit 1000)
-              releases=$(echo "$releases_output" | awk '{print $1}' | grep -E "^.*/PR-${{ github.event.pull_request.number }}-SHA-")
+              releases=$(echo $(gh release list --limit 1000) | awk '{print $1}' | grep -E "^.*/PR-${{ github.event.pull_request.number }}-SHA-")
               for release in $releases; do
                 gh release delete "$release" --cleanup-tag --yes
               done

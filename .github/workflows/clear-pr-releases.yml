@@ -27,10 +27,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           # Drop existing PR releases
-          releases_output=$(gh release list --limit 1000)
-          if [[ "$releases_output" != "no releases found" ]]; then
-            releases=$(echo "$releases_output" | awk '{print $1}' | grep -E "^$project/PR-${{ github.event.pull_request.number }}-SHA-")
-            for release in $releases; do
-              gh release delete "$release" --cleanup-tag --yes
-            done
-          fi
+          releases=$(echo $(gh release list --limit 1000) | awk '{print $1}' | grep -E "^.*/PR-${{ github.event.pull_request.number }}-SHA-")
+          for release in $releases; do
+            gh release delete "$release" --cleanup-tag --yes
+          done
