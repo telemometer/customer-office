@@ -2,7 +2,7 @@
 
 set -x
 
-projects=$(npx nx show projects --type app --affected)
+projects=$(npx nx show projects --base=$NX_BASE --head=$NX_HEAD)
 
 for project in $projects
 do
