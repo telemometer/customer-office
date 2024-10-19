@@ -78,26 +78,33 @@ jobs:
 
           for project in $projects
           do
-            npx nx build $project
-
             version=$(grep '"version"' apps/"$project"/"$project"/package.json | awk -F '"' '{print $4}')
             if [ -z "$version" ]; then
               echo "Error: Could not read version from $project/package.json"
               exit 1
             fi
 
+            npx nx build $project
+
             if [ "${{ github.event_name }}" != "pull_request" ]; then
               # Publish a stable release
               zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
               gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version"
             else
+              # Drop existing PR releases
+              releases=$(gh release list --limit 1000 | awk '{print $1}' | grep -E "^$project/PR-${{ github.event.pull_request.number }}-SHA-")
+              for release in $releases; do
+                gh release delete "$release" --cleanup-tag --yes
+              done
+
               # Publish a pre-release with SHA
-              suffix=PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
+              shortSHA=$(echo "${{ github.event.pull_request.head.sha }}" | awk '{print substr($0,1,8)}')
+              suffix=PR-${{ github.event.pull_request.number }}-SHA-"$shortSHA"
               pushd ./dist/apps/"$project"/"$project"/browser
-              npm version $version-$suffix
+              npm version $suffix
               popd
-              zip -r "./dist/apps/$project/$project/$project-$version-$suffix.zip" -j ./dist/apps/"$project"/"$project"/browser
-              gh release create "$project/$version-$suffix" "./dist/apps/$project/$project/$project-$version-$suffix.zip" -t=$project/$version-$suffix --prerelease
+              zip -r "./dist/apps/$project/$project/$project-$suffix.zip" -j ./dist/apps/"$project"/"$project"/browser
+              gh release create "$project/$suffix" "./dist/apps/$project/$project/$project-$suffix.zip" -t=$project/$suffix --prerelease
             fi
           done
 
