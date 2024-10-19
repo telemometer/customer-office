@@ -91,9 +91,10 @@ jobs:
             if [ "${{ github.event_name }}" == "pull_request" ]; then
               # Drop existing PR releases
               releases=$(echo $(gh release list --limit 1000) | awk '{print $1}' | grep -E "^.*/PR-${{ github.event.pull_request.number }}-SHA-")
-              for release in $releases; do
-                gh release delete "$release" --cleanup-tag --yes
-              done
+              echo $releases
+#              for release in $releases; do
+#                gh release delete "$release" --cleanup-tag --yes
+#              done
             fi
 
             if [ "${{ github.event_name }}" != "pull_request" ]; then
@@ -102,13 +103,21 @@ jobs:
               gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version"
             else
               # Publish a pre-release with SHA
+              echo "tut 0"
               shortSHA=$(echo "${{ github.event.pull_request.head.sha }}" | awk '{print substr($0,1,8)}')
+              echo "tut 1"
               suffix=PR-${{ github.event.pull_request.number }}-SHA-"$shortSHA"
+              echo "tut 2"
               pushd ./dist/apps/"$project"/"$project"/browser
+              echo "tut 3"
               npm version $version-$suffix
+              echo "tut 4"
               popd
+              echo "tut 5"
               zip -r "./dist/apps/$project/$project/$project-$suffix.zip" -j ./dist/apps/"$project"/"$project"/browser
+              echo "tut 6"
               gh release create "$project/$suffix" "./dist/apps/$project/$project/$project-$suffix.zip" -t=$project/$suffix --prerelease
+             echo "tut 7"
             fi
           done
 
