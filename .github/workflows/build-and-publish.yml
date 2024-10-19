@@ -88,17 +88,19 @@ jobs:
 
             npx nx build $project
 
-            if [ "${{ github.event_name }}" != "pull_request" ]; then
-              # Publish a stable release
-              zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
-              gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version"
-            else
+            if [ "${{ github.event_name }}" == "pull_request" ]; then
               # Drop existing PR releases
               releases=$(echo $(gh release list --limit 1000) | awk '{print $1}' | grep -E "^.*/PR-${{ github.event.pull_request.number }}-SHA-")
               for release in $releases; do
                 gh release delete "$release" --cleanup-tag --yes
               done
+            fi
 
+            if [ "${{ github.event_name }}" != "pull_request" ]; then
+              # Publish a stable release
+              zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
+              gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version"
+            else
               # Publish a pre-release with SHA
               shortSHA=$(echo "${{ github.event.pull_request.head.sha }}" | awk '{print substr($0,1,8)}')
               suffix=PR-${{ github.event.pull_request.number }}-SHA-"$shortSHA"
@@ -111,7 +113,9 @@ jobs:
           done
 
           if [ "${{ github.event_name }}" != "pull_request" ]; then
-            git commit -m "chore(release): release [skip ci]"
-            git push
-            git push --tags
+            if [[ -n $(git status --porcelain) ]]; then
+              git commit -m "chore(release): release [skip ci]"
+              git push
+              git push --tags
+            fi
           fi

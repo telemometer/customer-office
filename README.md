@@ -28,9 +28,7 @@ npx nx g @nx/angular:app shell --directory=apps/shell/shell
 TODO:
 
 - https://nx.dev/recipes/nx-release/publish-in-ci-cd
-- надо при апдейте версии ПРа удалять старые версии
 - CD
-- почисти теги и релищыэ
-
 - попробовать паралельно мержить
 - Ченжлог пишем в релиз notes
+- Uncomment lin steps
