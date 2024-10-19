@@ -75,7 +75,7 @@
       "tag": false
     },
     "releaseTagPattern": "release/{projectName}/{version}",
-    "projects": ["*", "!*-e2e"],
+    "projects": ["*"],
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
@@ -84,9 +84,6 @@
       }
     },
     "changelog": {
-      "git": {
-        "commit": true
-      },
       "projectChangelogs": {
         "entryWhenNoChanges": false
       },

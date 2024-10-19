@@ -72,11 +72,12 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npx nx release --skip-publish
-          npx nx affected -t build
+          npx nx affected -t build --base=$NX_BASE --head=$NX_HEAD
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
           else
             .github/scripts/publish-affected.sh
-            git commit -am "chore(release): release [skip ci]"
+            git commit -m "chore(release): release [skip ci]"
             git push --tags
+            git status
           fi
