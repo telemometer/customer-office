@@ -2,7 +2,7 @@
 
 set -x
 
-projects=$(npx nx show projects --affected --base=$NX_BASE --head=$NX_HEAD)
+projects=$(npx nx show projects --affected --base=$NX_BASE --head=$NX_HEAD --exclude="*-e2e")
 
 for project in $projects
 do
