@@ -78,13 +78,13 @@ jobs:
 
           for project in $projects
           do
-            npx nx build $project
-
             version=$(grep '"version"' apps/"$project"/"$project"/package.json | awk -F '"' '{print $4}')
             if [ -z "$version" ]; then
               echo "Error: Could not read version from $project/package.json"
               exit 1
             fi
+
+            npx nx build $project
 
             if [ "${{ github.event_name }}" != "pull_request" ]; then
               # Publish a stable release
