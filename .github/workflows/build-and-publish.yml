@@ -80,5 +80,4 @@ jobs:
             git commit -m "chore(release): release [skip ci]"
             git push
             git push --tags
-            git status
           fi
