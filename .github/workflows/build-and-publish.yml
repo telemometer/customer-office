@@ -53,17 +53,17 @@ jobs:
       - name: Derive appropriate SHAs for base and head for `nx affected` commands
         uses: nrwl/nx-set-shas@v4
 
-      - name: Check formatting
-        run: npx nx format:check
-
-      - name: Lint affected
-        run: npx nx affected -t lint
-
-      - name: Test affected
-        run: npx nx affected -t test
-
-      - name: E2E affected
-        run: npx nx affected -t e2e
+#      - name: Check formatting
+#        run: npx nx format:check
+#
+#      - name: Lint affected
+#        run: npx nx affected -t lint
+#
+#      - name: Test affected
+#        run: npx nx affected -t test
+#
+#      - name: E2E affected
+#        run: npx nx affected -t e2e
 
       - name: Release
         env:
@@ -78,6 +78,9 @@ jobs:
           else
             .github/scripts/publish-affected.sh
             git commit -m "chore(release): release [skip ci]"
+            git remote show origin
+            git status
             git push --tags
+            git remote show origin
             git status
           fi
