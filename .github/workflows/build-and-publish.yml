@@ -71,13 +71,35 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+          projects=$(npx nx show projects --affected --base=$NX_BASE --head=$NX_HEAD --exclude="*-e2e")
+
           npx nx release --skip-publish
-          npx nx affected -t build --base=$NX_BASE --head=$NX_HEAD
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            .github/scripts/publish-affected.sh PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
-          else
-            .github/scripts/publish-affected.sh
-            git commit -m "chore(release): release [skip ci]"
-            git push
-            git push --tags
-          fi
+
+          for project in $projects
+          do
+            npx nx build $project
+
+            version=$(grep '"version"' apps/"$project"/"$project"/package.json | awk -F '"' '{print $4}')
+            if [ -z "$version" ]; then
+              echo "Error: Could not read version from $project/package.json"
+              exit 1
+            fi
+
+            if [ "${{ github.event_name }}" != "pull_request" ]; then
+              # Publish a stable release
+              zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
+              gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version"
+              git commit -m "chore(release): release [skip ci]"
+              git push
+              git push --tags
+            else
+              # Publish a pre-release with SHA
+              suffix=PR-${{ github.event.pull_request.number }}-SHA-${{ github.event.pull_request.head.sha }}
+              pushd ./dist/apps/"$project"/"$project"/browser
+              npm version $version-$suffix
+              popd
+              zip -r "./dist/apps/$project/$project/$project-$version-$suffix.zip" -j ./dist/apps/"$project"/"$project"/browser
+              gh release create "$project/$version-$suffix" "./dist/apps/$project/$project/$project-$version-$suffix.zip" -t=$project/$version-$suffix --prerelease
+            fi
+          done
