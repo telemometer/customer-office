@@ -4,13 +4,13 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    types:
-      - opened
-      - reopened
-      - synchronize
-    branches:
-      - main
+#  pull_request:
+#    types:
+#      - opened
+#      - reopened
+#      - synchronize
+#    branches:
+#      - main
 
 concurrency:
   group: ${{ github.event_name == 'pull_request' && github.event.pull_request.number || github.sha }}

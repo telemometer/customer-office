@@ -84,6 +84,9 @@
       }
     },
     "changelog": {
+      "git": {
+        "commit": true
+      },
       "projectChangelogs": {
         "entryWhenNoChanges": false
       },
