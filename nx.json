@@ -75,7 +75,7 @@
       "tag": false
     },
     "releaseTagPattern": "release/{projectName}/{version}",
-    "projects": ["*"],
+    "projects": ["*", "!*-e2e"],
     "projectsRelationship": "independent",
     "version": {
       "conventionalCommits": true,
