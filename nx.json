@@ -85,7 +85,13 @@
     },
     "changelog": {
       "projectChangelogs": {
-        "entryWhenNoChanges": false
+        "entryWhenNoChanges": false,
+        "renderOptions": {
+          "authors": true,
+          "mapAuthorsToGitHubUsernames": true,
+          "commitReferences": true,
+          "versionTitleDate": true
+        }
       },
       "workspaceChangelog": false,
       "automaticFromRef": true
