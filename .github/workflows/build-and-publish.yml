@@ -95,11 +95,12 @@ jobs:
             fi
 
             npx nx build $project
+            latestChanges=$(awk '/^# /{count++} count==2{exit} {print}' apps/dashboard/dashboard/CHANGELOG.md)
 
             if [ "${{ github.event_name }}" != "pull_request" ]; then
               # Publish a stable release
               zip -r "./dist/apps/$project/$project/$project-$version.zip" -j ./dist/apps/"$project"/"$project"/browser
-              gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version"
+              gh release create release/"$project"/"$version" "./dist/apps/$project/$project/$project-$version.zip" -t=release/"$project"/"$version" -n "$latestChanges"
             else
               # Publish a pre-release with SHA
               shortSHA=$(echo "${{ github.event.pull_request.head.sha }}" | awk '{print substr($0,1,8)}')
@@ -108,7 +109,7 @@ jobs:
               npm version $version-$suffix
               popd
               zip -r "./dist/apps/$project/$project/$project-$suffix.zip" -j ./dist/apps/"$project"/"$project"/browser
-              gh release create "$project/$suffix" "./dist/apps/$project/$project/$project-$suffix.zip" -t=$project/$suffix --prerelease
+              gh release create "$project/$suffix" "./dist/apps/$project/$project/$project-$suffix.zip" -t=$project/$suffix -n "$latestChanges" --prerelease
             fi
           done
 
