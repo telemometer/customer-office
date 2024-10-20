@@ -70,11 +70,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -x
+          set -e
 
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          projects=$(npx nx show projects --affected --base=$NX_BASE --head=$NX_HEAD --exclude="*-e2e")
+          projects=$(npx nx release --skip-publish --dry-run 2>&1 | awk -F'/' '/New version/ && $3 {print $3}')
 
           npx nx release --skip-publish
 
