@@ -1,3 +1,15 @@
+## 1.0.1 (2024-10-20)
+
+
+### 🩹 Fixes
+
+- **dashboard:** feat-22
+
+
+### ❤️  Thank You
+
+- Andrey Korovin
+
 # 1.0.0 (2024-10-20)
 
 
