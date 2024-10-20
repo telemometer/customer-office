@@ -1,3 +1,17 @@
+## 1.0.1 (2024-10-20)
+
+
+### 🩹 Fixes
+
+- **release:** only one 4
+
+- **release:** only one 5
+
+
+### ❤️  Thank You
+
+- Andrey Korovin
+
 # 1.0.0 (2024-10-20)
 
 
