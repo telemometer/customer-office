@@ -70,6 +70,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -x
+          set -e
 
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -77,7 +78,7 @@ jobs:
           projects=$(npx nx show projects --affected --base=$NX_BASE --head=$NX_HEAD --exclude="*-e2e")
 
           npx nx release --skip-publish
-
+  gh release view --json body --jq='.[].body' | grep -q "skip ci" && exit 0
           if [ "${{ github.event_name }}" == "pull_request" ]; then
             # Drop existing PR releases
             releases=$(gh release list --limit 1000 --json=name --jq='.[].name | select(. |  test("^.*/PR-${{ github.event.pull_request.number }}-SHA-"))')
