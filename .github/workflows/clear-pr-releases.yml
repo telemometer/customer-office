@@ -31,3 +31,8 @@ jobs:
           for release in $releases; do
             gh release delete $release --cleanup-tag --yes
           done
+
+          for tag in $(git tag | grep -E "^.*/PR-${{ github.event.pull_request.number }}-SHA-"); do
+            git tag -d "$tag"
+            git push origin --delete "$tag"
+          done
