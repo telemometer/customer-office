@@ -26,7 +26,6 @@ npx nx g @nx/angular:app shell --directory=apps/shell/shell
 ```
 
 TODO:
-
 - https://nx.dev/recipes/nx-release/publish-in-ci-cd
 - CD
 - попробовать паралельно мержить
