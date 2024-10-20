@@ -21,6 +21,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.REPO_PUSH_KEY }}
 
       - name: Drop closed PR releases
         env:
