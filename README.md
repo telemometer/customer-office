@@ -29,3 +29,4 @@ TODO:
 
 - CD
 - Fix changelog text added to release
+- Иногда не удаляются теги

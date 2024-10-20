@@ -21,20 +21,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ssh-key: ${{ secrets.REPO_PUSH_KEY }}
 
       - name: Drop closed PR releases
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -x
+          set -e
+
           # Drop existing PR releases
           releases=$(gh release list --limit 1000 --json=name --jq='.[].name | select(. |  test("^.*/PR-${{ github.event.pull_request.number }}-SHA-"))')
           for release in $releases; do
             gh release delete $release --cleanup-tag --yes
-          done
-
-          for tag in $(git tag | grep -E "^.*/PR-${{ github.event.pull_request.number }}-SHA-"); do
-            git tag -d "$tag"
-            git push origin --delete "$tag"
           done
